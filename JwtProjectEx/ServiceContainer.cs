@@ -1,5 +1,7 @@
 ﻿using JwtProjectEx.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace JwtProjectEx
 {
@@ -12,6 +14,27 @@ namespace JwtProjectEx
                 string? connectionString = configuration["ConnectionStrings:DbConnection"];
                 opt.UseSqlServer(connectionString);
             });
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(option =>
+                {
+                    option.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidAudience = configuration["Jwt:Audience"],
+                        ValidIssuer = configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+
+                    };
+                });
         }
+
+
     }
 }

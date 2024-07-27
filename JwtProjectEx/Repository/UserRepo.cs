@@ -33,7 +33,7 @@ namespace JwtProjectEx.Repository
             bool isPasswordVerified = BCrypt.Net.BCrypt.Verify(logInUserDto.Password, userInDb.Password);
             if (isPasswordVerified)
             {
-                return new LogInUserResponse() { Flag = true, Message = "You have been logged in successfully", Token="" };
+                return new LogInUserResponse() { Flag = true, Message = "You have been logged in successfully", Token=GenerateJwtToken(userInDb) };
             }
             else
             {

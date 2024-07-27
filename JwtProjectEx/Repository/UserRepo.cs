@@ -69,8 +69,8 @@ namespace JwtProjectEx.Repository
 
         public async Task<RegisterUserResponse> RegisterUserAsync(RegisterUserDto registerUserDto)
         {
-          var userInDb = await _context.ApplicationUsers.SingleOrDefaultAsync(au => au.Email == registerUserDto.Email);
-            if (userInDb == null)
+            var userFromDb = await _context.ApplicationUsers.FirstOrDefaultAsync(au => au.Email == registerUserDto.Email);
+            if (userFromDb != null)
             {
                  return new RegisterUserResponse() {Flag = false, Message="User Already Exists" };
             }

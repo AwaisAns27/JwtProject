@@ -1,4 +1,5 @@
 ﻿using JwtProjectEx.Data;
+using JwtProjectEx.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -34,6 +35,7 @@ namespace JwtProjectEx
 
                     };
                 });
+            services.AddScoped<IUserRepo, UserRepo>();
         }
 
 

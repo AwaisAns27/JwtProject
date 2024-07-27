@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JwtProjectEx.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserController : Controller
     {
         private readonly IUserRepo _userRepo;
@@ -15,16 +17,18 @@ namespace JwtProjectEx.Controllers
         {
             _userRepo = userRepo;
         }
+
+        [HttpPost("Register")]
         public async Task<ActionResult<ApplicationUser>> Register(RegisterUserDto registerUserDto)
         {
-            var result = _userRepo.RegisterUserAsync(registerUserDto);
+            var result =await _userRepo.RegisterUserAsync(registerUserDto);
             return Ok(result);
 
         }
-
+        [HttpPost("Login")]
         public async Task<ActionResult<LogInUserResponse>> LogIn(LogInUserDto logInUserDto)
         {
-           var result = _userRepo.LogInUserAsync(logInUserDto);
+           var result = await _userRepo.LogInUserAsync(logInUserDto);
             return Ok(result);
         }
     }
